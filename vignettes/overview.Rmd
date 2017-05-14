@@ -1,0 +1,79 @@
+---
+title: "Introduce FARS package"
+author: "Duy Tho Nguyen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Overview of the FARS package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, include = FALSE}
+library(fars)
+library(dplyr)
+library(maps)
+```
+
+The package provide functions used for sumarizing data from [FARS - Fatality Analysis Reporting System](http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS))
+
+# Install package
+
+## Prerequisite
+
+The package required `dplyr` and `maps` installed beforehand
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("dplyr")
+install.packages("maps")
+```
+
+## Install from github
+
+The package is currently not in CRAN but you could download from Github
+
+```{r, eval=FALSE}
+devtools::install_github("ThoDuyNguyen/fars")
+```
+
+# Usage
+
+## Load packages
+
+```{r, eval=FALSE}
+library(fars)
+library(dplyr)
+library(maps)
+```
+
+## Package functions
+
+We will use data from FARS, years 2013-2015, that can be found in the package directory under `\extdata` folder in the example.
+
+## Read FARS data
+
+`fars_read` read data from a file path provided as an argument. It returns a `tibble` with loaded data:
+
+```{r fars_read_example}
+filename <- system.file("extdata/accident_2014.csv.bz2", package = "fars")
+fars_read(filename)
+```
+
+## Summarize number
+
+`fars_summarize_years` takes a vector or list of years (numeric/integer values) as an argument and returns a pivot table with number of accidents per year and month. 
+
+```{r fars_summarize_years_example}
+setwd(system.file("extdata", package = "fars"))
+fars_summarize_years(2013:2014)
+```
+
+## Plot accident locations
+
+`fars_map_state` takesstate index and year as arguments and returns a plot of the state with accident locations. The state indices need to correspond available indeces from the data set. 
+```{r fars_map_state_example}
+setwd(system.file("extdata", package = "fars"))
+fars_map_state(45, 2014)
+```
+
+ 
